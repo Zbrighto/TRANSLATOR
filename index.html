@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Language Translator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Language Translator</h1>
+    <div id="translator">
+        <textarea id="input" rows="5" cols="50" placeholder="Enter text to translate"></textarea>
+        <button onclick="translate()">Translate</button>
+        <textarea id="output" rows="5" cols="50" placeholder="Translated text will appear here" readonly></textarea>
+    </div>
+
+    <script>
+        
+        function translate() {
+            const inputText = document.getElementById('input').value;
+            const outputText = document.getElementById('output');
+            
+            // Replace 'YOUR_API_KEY' with your actual Google Translate API key
+            const apiKey = 'YOUR_API_KEY';
+            
+            // Language code for the source language (e.g., 'en' for English)
+            const sourceLang = 'auto';
+            
+            // Language code for the target language (e.g., 'es' for Spanish)
+            const targetLang = 'en';
+            
+            // Construct the URL for the translation request
+            const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${encodeURIComponent(inputText)}&source=${sourceLang}&target=${targetLang}`;
+            
+            // Make a GET request to the translation API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const translation = data.data.translations[0].translatedText;
+                    outputText.value = translation;
+                })
+                .catch(error => {
+                    console.log('An error occurred:', error);
+                });
+        }
+    
+    </script>
+</body>
+</html>
